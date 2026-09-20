@@ -1,5 +1,5 @@
 ---
-description: '이모지와 컨벤셔널 커밋 메시지로 잘 포맷된 커밋을 생성합니다'
+description: '컨벤셔널 커밋 메시지로 잘 포맷된 커밋을 생성합니다'
 allowed-tools:
   [
     'Bash(git add:*)',
@@ -12,7 +12,7 @@ allowed-tools:
 
 # Claude 명령어: Commit
 
-이모지와 컨벤셔널 커밋 메시지로 잘 포맷된 커밋을 생성합니다.
+컨벤셔널 커밋 메시지로 잘 포맷된 커밋을 생성합니다.
 
 ## 사용법
 
@@ -29,7 +29,7 @@ allowed-tools:
 
 ## 커밋 포맷
 
-`<이모지> <타입>: <설명>`
+`<타입>: <설명>`
 
 **타입:**
 
@@ -48,10 +48,6 @@ allowed-tools:
 - 첫 줄 72자 미만
 - 원자적 커밋 (단일 목적)
 - 관련 없는 변경사항 분할
-
-## 이모지 맵
-
-✨ feat | 🐛 fix | 📝 docs | 💄 style | ♻️ refactor | ⚡ perf | ✅ test | 🔧 chore | 🚀 ci | 🚨 warnings | 🔒️ security | 🚚 move | 🏗️ architecture | ➕ add-dep | ➖ remove-dep | 🌱 seed | 🧑‍💻 dx | 🏷️ types | 👔 business | 🚸 ux | 🩹 minor-fix | 🥅 errors | 🔥 remove | 🎨 structure | 🚑️ hotfix | 🎉 init | 🔖 release | 🚧 wip | 💚 ci-fix | 📌 pin-deps | 👷 ci-build | 📈 analytics | ✏️ typos | ⏪️ revert | 📄 license | 💥 breaking | 🍱 assets | ♿️ accessibility | 💡 comments | 🗃️ db | 🔊 logs | 🔇 remove-logs | 🙈 gitignore | 📸 snapshots | ⚗️ experiment | 🚩 flags | 💫 animations | ⚰️ dead-code | 🦺 validation | ✈️ offline
 
 ## 분할 기준
 
