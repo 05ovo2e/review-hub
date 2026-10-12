@@ -69,7 +69,7 @@ function extractMetadata(notionPage: NotionPage): ContentMetadata {
 }
 
 /**
- * Notion 텍스트 필드 추출
+ * Notion 텍스트 필드 추출 (첫 번째 항목만)
  */
 function extractText(field: unknown): string {
   if (!field || typeof field !== 'object') return ''
@@ -111,6 +111,25 @@ function extractText(field: unknown): string {
       return ''
   }
 }
+
+/**
+ * Notion rich_text 필드의 모든 텍스트를 결합해서 추출
+ */
+function extractRichText(field: unknown): string {
+  if (!field || typeof field !== 'object') return ''
+
+  const f = field as Record<string, unknown>
+  if (f.type === 'rich_text' && Array.isArray(f.rich_text)) {
+    return f.rich_text
+      .map(item =>
+        item && typeof item === 'object' && 'plain_text' in item
+          ? String(item.plain_text)
+          : ''
+      )
+      .join('')
+  }
+  return ''
+}
 /**
  * Notion 태그/멀티셀렉트 추출
  */
@@ -138,13 +157,15 @@ function convertNotionBlockToContentBlock(
   const getContent = (block: unknown) => {
     if (block && typeof block === 'object' && 'rich_text' in block) {
       const richText = block.rich_text
-      if (
-        Array.isArray(richText) &&
-        richText[0] &&
-        typeof richText[0] === 'object' &&
-        'plain_text' in richText[0]
-      ) {
-        return String(richText[0].plain_text)
+      if (Array.isArray(richText)) {
+        // 모든 rich_text 항목을 결합
+        return richText
+          .map(item =>
+            item && typeof item === 'object' && 'plain_text' in item
+              ? String(item.plain_text)
+              : ''
+          )
+          .join('')
       }
     }
     return ''
@@ -362,27 +383,47 @@ export async function getTopRatedContents(
 }
 
 /**
- * Notion 페이지 블록 조회 헬퍼
+ * Notion 페이지 블록 조회 헬퍼 (페이지네이션 포함)
  */
 async function getPageBlocks(pageId: string): Promise<BlocksListResponse> {
-  const response = await fetch(
-    `https://api.notion.com/v1/blocks/${pageId}/children`,
-    {
+  const allBlocks: Array<{
+    id: string
+    type: string
+    [key: string]: unknown
+  }> = []
+  let cursor: string | undefined
+  let hasMore = true
+
+  while (hasMore) {
+    const url = new URL(`https://api.notion.com/v1/blocks/${pageId}/children`)
+    if (cursor) {
+      url.searchParams.set('start_cursor', cursor)
+    }
+
+    const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${env.NOTION_API_KEY}`,
         'Notion-Version': '2022-06-28',
       },
-    }
-  )
+    })
 
-  if (!response.ok) {
-    throw new Error(
-      `Notion API error: ${response.status} ${response.statusText}`
-    )
+    if (!response.ok) {
+      throw new Error(
+        `Notion API error: ${response.status} ${response.statusText}`
+      )
+    }
+
+    const data = (await response.json()) as BlocksListResponse
+    allBlocks.push(...data.results)
+    hasMore = data.has_more
+    cursor = data.next_cursor
   }
 
-  return response.json() as Promise<BlocksListResponse>
+  return {
+    results: allBlocks,
+    has_more: false,
+  }
 }
 
 /**
@@ -402,11 +443,33 @@ export async function getContentById(pageId: string): Promise<Content | null> {
 
     const metadata = extractMetadata(pageData)
 
-    const blocksResponse = await getPageBlocks(pageId)
+    let blocks: ContentBlock[] = []
 
-    const blocks = blocksResponse.results
+    // 1. 먼저 페이지의 하위 블록을 시도
+    const blocksResponse = await getPageBlocks(pageId)
+    blocks = blocksResponse.results
       .map(block => convertNotionBlockToContentBlock(block as NotionBlock))
       .filter((block): block is ContentBlock => block !== null)
+
+    // 2. 블록이 없으면 '내용' 프로퍼티에서 추출
+    if (blocks.length === 0) {
+      const properties = pageData.properties || {}
+      const contentProp = properties['내용']
+
+      if (contentProp && typeof contentProp === 'object') {
+        const contentText = extractRichText(contentProp)
+        if (contentText) {
+          // '내용' 프로퍼티를 하나의 paragraph 블록으로 변환
+          blocks = [
+            {
+              id: `content-property-${pageId}`,
+              type: 'paragraph',
+              content: contentText,
+            },
+          ]
+        }
+      }
+    }
 
     return {
       id: pageId,
