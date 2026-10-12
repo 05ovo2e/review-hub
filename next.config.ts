@@ -5,6 +5,16 @@ const nextConfig: NextConfig = {
   compress: true,
   images: {
     formats: ['image/webp', 'image/avif'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'image.aladin.co.kr',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.namu.wiki',
+      },
+    ],
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
