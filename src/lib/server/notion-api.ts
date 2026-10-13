@@ -1,13 +1,13 @@
-import { notion } from './notion'
-import { env } from './env'
 import {
+  BlockType,
   Content,
+  ContentBlock,
   ContentListItem,
   ContentMetadata,
-  ContentBlock,
   ContentType,
-  BlockType,
 } from '@/types/content'
+import { env } from './env'
+import { notion } from './notion'
 
 interface NotionPage {
   id: string
@@ -106,6 +106,20 @@ function extractText(field: unknown): string {
     }
     case 'number': {
       return String(f.number || '')
+    }
+
+    case 'multi_select': {
+      if (Array.isArray(f.multi_select)) {
+        return f.multi_select
+          .map(item =>
+            item && typeof item === 'object' && 'name' in item
+              ? String(item.name)
+              : ''
+          )
+          .filter(Boolean)
+          .join(', ')
+      }
+      return ''
     }
     default:
       return ''
@@ -309,14 +323,18 @@ export async function getContentsByType(
       and: [
         {
           property: '공개',
-          select: {
-            equals: 'Yes',
+          checkbox: {
+            equals: true,
           },
         },
         {
           property: 'select',
           select: {
-            equals: type,
+            equals: {
+              book: '책',
+              movie: '영화',
+              drama: '드라마',
+            }[type],
           },
         },
       ],
@@ -504,10 +522,16 @@ export async function getFilteredContents(
     ]
 
     if (type) {
+      const notionType = {
+        book: '책',
+        movie: '영화',
+        drama: '드라마',
+      }[type]
+
       filters.push({
         property: 'select',
         select: {
-          equals: type,
+          equals: notionType,
         },
       })
     }
