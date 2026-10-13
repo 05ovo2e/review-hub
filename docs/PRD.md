@@ -60,27 +60,27 @@ Notion에서 콘텐츠와 리뷰를 관리하고, Next.js 웹사이트에서 공
 
 ## 기술 스택
 
-| 영역 | 기술 |
-|---|---|
-| Frontend | Next.js 15.5.3 |
-| Language | TypeScript 5 |
-| CMS | Notion API (`@notionhq/client`) |
-| Styling | Tailwind CSS v4 |
-| UI | shadcn/ui |
-| Icons | lucide-react |
+| 영역     | 기술                            |
+| -------- | ------------------------------- |
+| Frontend | Next.js 15.5.3                  |
+| Language | TypeScript 5                    |
+| CMS      | Notion API (`@notionhq/client`) |
+| Styling  | Tailwind CSS v4                 |
+| UI       | shadcn/ui                       |
+| Icons    | lucide-react                    |
 
 ## Notion 데이터베이스 구조
 
-| 속성명 | 타입 | 설명 |
-|---|---|---|
-| 제목 | Title | 콘텐츠 제목 |
-| 콘텐츠 유형 | Select | 책, 영화, 드라마 |
-| 장르 | Multi-select | 콘텐츠 장르 |
-| 작가/감독 | Rich text | 작가 또는 감독 |
-| 평점 | Number | 1~5 평점 |
-| 태그 | Multi-select | 콘텐츠 태그 |
-| 썸네일 | Files & media | 대표 이미지 |
-| 공개 여부 | Checkbox | 웹사이트 공개 여부 |
+| 속성명      | 타입          | 설명               |
+| ----------- | ------------- | ------------------ |
+| 제목        | Title         | 콘텐츠 제목        |
+| 콘텐츠 유형 | Select        | 책, 영화, 드라마   |
+| 장르        | Multi-select  | 콘텐츠 장르        |
+| 작가/감독   | Rich text     | 작가 또는 감독     |
+| 평점        | Number        | 1~5 평점           |
+| 태그        | Multi-select  | 콘텐츠 태그        |
+| 썸네일      | Files & media | 대표 이미지        |
+| 공개 여부   | Checkbox      | 웹사이트 공개 여부 |
 
 리뷰 본문은 데이터베이스 속성이 아니라 각 Notion 페이지의 본문에 작성합니다.
 

@@ -1,6 +1,11 @@
 # 🤖 Claude Code 개발 지침
 
-**claude-nextjs-starters**는 Next.js 15.5.3 + React 19 기반 모던 웹 애플리케이션 스타터 템플릿입니다.
+**Review Hub**는 Notion을 CMS로 활용해 책 · 영화 · 드라마 콘텐츠 리뷰를 관리하고 공개하는 리뷰 플랫폼입니다.
+
+## Project Context
+
+- **PRD 문서**: @/docs/PRD.md
+- **개발 로드맵**: @/docs/ROADMAP.md
 
 ## 🛠️ 핵심 기술 스택
 
@@ -13,13 +18,13 @@
 
 ## 📚 개발 가이드
 
-- **🗺️ 개발 로드맵**: `@/docs/ROADMAP.md`
-- **📋 프로젝트 요구사항**: `@/docs/PRD.md`
-- **📁 프로젝트 구조**: `@/docs/guides/project-structure.md`
-- **🎨 스타일링 가이드**: `@/docs/guides/styling-guide.md`
-- **🧩 컴포넌트 패턴**: `@/docs/guides/component-patterns.md`
-- **⚡ Next.js 15.5.3 전문 가이드**: `@/docs/guides/nextjs-15.md`
-- **📝 폼 처리 완전 가이드**: `@/docs/guides/forms-react-hook-form.md`
+- ** 개발 로드맵**: `@/docs/ROADMAP.md`
+- ** 프로젝트 요구사항**: `@/docs/PRD.md`
+- ** 프로젝트 구조**: `@/docs/guides/project-structure.md`
+- ** 스타일링 가이드**: `@/docs/guides/styling-guide.md`
+- ** 컴포넌트 패턴**: `@/docs/guides/component-patterns.md`
+- ** Next.js 15.5.3 전문 가이드**: `@/docs/guides/nextjs-15.md`
+- ** 폼 처리 완전 가이드**: `@/docs/guides/forms-react-hook-form.md`
 
 ## ⚡ 자주 사용하는 명령어
 

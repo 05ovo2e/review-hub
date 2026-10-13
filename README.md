@@ -26,7 +26,7 @@ Notion을 CMS로 활용한 책, 영화, 드라마 등 콘텐츠 리뷰 서비스
 
 ### 사전 요구사항
 
-- Node.js 18+ 
+- Node.js 18+
 - npm / yarn / pnpm / bun
 - Notion 계정 및 Integration API Key
 
@@ -59,15 +59,22 @@ npm run dev
 
 ```
 review-hub/
-├── app/                 # Next.js App Router
-├── components/          # React 컴포넌트
-├── lib/                 # 유틸리티 및 API 로직
-├── public/              # 정적 파일
-├── docs/                # 개발 문서
-│   ├── PRD.md          # 제품 요구사항 정의서
-│   └── guides/         # 개발 가이드
+├── src/
+│   ├── app/                 # Next.js App Router
+│   ├── components/          # React 컴포넌트
+│   └── lib/                 # 유틸리티 및 API 로직
+├── public/                  # 정적 파일
+├── docs/                    # 개발 문서
+│   ├── PRD.md              # 제품 요구사항 정의서
+│   └── guides/             # 개발 가이드
 └── package.json
 ```
+
+## 📱 주요 페이지
+
+1. **홈 (`/`)** - 평점 높은 콘텐츠 최대 6개 노출
+2. **콘텐츠 목록 (`/contents`)** - 공개 콘텐츠 카드 목록 + 유형 필터
+3. **콘텐츠 상세 (`/contents/[id]`)** - 메타정보 + Notion 리뷰 본문
 
 ## 개발 가이드
 
