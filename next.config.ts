@@ -19,6 +19,19 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  /**
+   * 루트 경로는 콘텐츠 목록을 기본 진입 페이지로 사용
+   * 추후 메인 페이지를 다시 도입할 수 있도록 영구 리다이렉트(308) 대신 임시 리다이렉트 사용
+   */
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/contents',
+        permanent: false,
+      },
+    ]
+  },
   async headers() {
     return [
       {
