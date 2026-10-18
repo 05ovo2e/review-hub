@@ -1,6 +1,6 @@
-import Image from 'next/image'
-import { Star } from 'lucide-react'
 import { ContentListItem } from '@/types/content'
+import { Star } from 'lucide-react'
+import Image from 'next/image'
 
 interface ContentCardProps {
   content: ContentListItem
@@ -39,7 +39,7 @@ export function ContentCard({ content, onClick }: ContentCardProps) {
           <div className="flex h-full w-full items-center justify-center text-4xl opacity-20">
             {content.type === 'book' && '📕'}
             {content.type === 'movie' && '🎬'}
-            {content.type === 'drama' && '🎭'}
+            {content.type === 'drama' && '😆'}
           </div>
         )}
       </div>
